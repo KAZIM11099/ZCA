@@ -1,0 +1,108 @@
+export const guides = [
+  {
+    slug: 'artwork-preparation',
+    title: 'How to prepare artwork for garment printing',
+    description: 'A practical checklist for discussing artwork files, transparency, placement, and print-ready details with a clothing printer.',
+    updatedAt: '2026-11-15',
+    category: 'Artwork & printing',
+    takeaways: ['Keep the original artwork file.', 'Ask the printer which file formats and dimensions they accept.', 'Confirm artwork placement and scale before production.'],
+    sections: [
+      { heading: 'What should you ask before exporting?', paragraphs: ['File requirements depend on the printing process and the equipment used. Ask the studio which formats it accepts, what maximum file size applies, and whether it needs a transparent background. Do not assume one export setting works for every printer.'] },
+      { heading: 'How do you prepare a clean artwork file?', paragraphs: ['Keep text editable in a source copy, check that the artwork is legible at its intended size, and avoid sending a screenshot when the original file is available. If the design uses transparency, inspect the exported file against both a light and a dark background.'] },
+      { heading: 'What should be confirmed before production?', paragraphs: ['Share the garment type, intended placement, approximate size, and the final artwork. Ask for a preview or written confirmation of the design position before production begins. The accepted formats and resolution requirements should be confirmed with the studio.'] },
+    ],
+  },
+  {
+    slug: 'printing-methods',
+    title: 'How to compare garment decoration methods',
+    description: 'Questions to ask when comparing garment printing and decoration methods for a personal, team, or business order.',
+    updatedAt: '2026-11-15',
+    category: 'Artwork & printing',
+    takeaways: ['The right method depends on the artwork and garment.', 'Ask whether the method is actually available for your order.', 'Compare a sample or proof where possible.'],
+    sections: [
+      { heading: 'What affects the choice of method?', paragraphs: ['Artwork complexity, number of colours, garment material, order quantity, placement, and repeat-order needs can all affect the best option. A studio should confirm which methods it offers rather than assuming every decoration technique is available.'] },
+      { heading: 'What should you compare?', paragraphs: ['Ask how the artwork will look at the requested size, whether the garment is suitable, what care instructions apply, and whether setup costs or quantity thresholds change the quote. Compare the complete quote rather than a single per-piece number.'] },
+      { heading: 'How do you make a confident decision?', paragraphs: ['Send the same artwork and garment brief when requesting options. Ask for a sample, digital proof, or a clear explanation of any limitations before approving a production run.'] },
+    ],
+  },
+  {
+    slug: 'garment-fit',
+    title: 'How to choose a T-shirt or hoodie size',
+    description: 'Use a garment you already own to compare measurements and make a more informed choice about a T-shirt or hoodie fit.',
+    updatedAt: '2026-11-15',
+    category: 'Sizing & fit',
+    takeaways: ['Measure a similar garment flat.', 'Compare the same points across both garments.', 'Check the product’s own size chart where one is provided.'],
+    sections: [
+      { heading: 'How should you measure a garment?', paragraphs: ['Lay a well-fitting garment flat without stretching it. Measure the chest across from side seam to side seam, then measure body length from the highest shoulder point to the hem. Record the sleeve and shoulder measurements if those affect the fit you want.'] },
+      { heading: 'How do you compare the measurements?', paragraphs: ['Compare your garment with the measurements shown for the product you want. A difference of a few centimetres can change the silhouette, so review chest and length together rather than relying only on the size label.'] },
+      { heading: 'What if no size chart is available?', paragraphs: ['Do not guess at exact garment measurements. Contact the studio with the product name and the measurements of a similar garment, and ask which available size is the closest match.'] },
+    ],
+  },
+  {
+    slug: 'fabric-guide',
+    title: 'Questions to ask about T-shirt and sweatshirt fabric',
+    description: 'A practical guide to comparing garment fabric information, including fibre composition, weight, season, and care.',
+    updatedAt: '2026-11-15',
+    category: 'Fabric & garments',
+    takeaways: ['Check fibre composition and fabric weight when provided.', 'Consider how and when you plan to wear the garment.', 'Follow the garment care label.'],
+    sections: [
+      { heading: 'What does fabric weight tell you?', paragraphs: ['Fabric weight can help compare two fabrics, but it does not by itself describe softness, breathability, durability, or warmth. Construction, fibre, knit, finishing, and garment design all matter. Ask for the specification rather than inferring it from a product photo.'] },
+      { heading: 'Which fabric details are useful?', paragraphs: ['Look for fibre composition, fabric construction, and a stated weight if the seller provides them. For sweatshirts and hoodies, ask whether the inside is loopback, brushed, or another construction; those terms describe different surfaces and wearing feel.'] },
+      { heading: 'How should you care for a garment?', paragraphs: ['Follow the garment label first. If a printed design is present, turn the garment inside out and avoid ironing directly on the design unless the care instructions explicitly allow it. Ask the seller for care guidance when the label does not answer your question.'] },
+    ],
+  },
+  {
+    slug: 'bulk-ordering',
+    title: 'How to plan a custom clothing order in bulk',
+    description: 'A clear brief helps a clothing studio quote team, event, school, or brand garments with fewer unanswered questions.',
+    updatedAt: '2026-11-15',
+    category: 'Bulk orders',
+    takeaways: ['List quantities by garment, colour, and size.', 'Provide artwork and a requested delivery date.', 'Confirm minimums, costs, and approvals in writing.'],
+    sections: [
+      { heading: 'What belongs in a bulk-order brief?', paragraphs: ['Include the intended use, garment types, estimated quantities, size breakdown, colour preferences, artwork, placement, and the date the garments are needed. Mention whether quantities may change after the first quote.'] },
+      { heading: 'How should you compare a quote?', paragraphs: ['Ask what is included, whether artwork preparation or samples cost extra, how changes affect price, and which payment terms apply. Minimum quantities, production times, and delivery options must be confirmed by the studio; they vary by project.'] },
+      { heading: 'Why is approval important?', paragraphs: ['Before production, confirm the garment, size breakdown, artwork, placement, final quantity, price, and delivery plan. Keep the approved proof and quote so both sides can refer to the same specifications.'] },
+    ],
+  },
+  {
+    slug: 'team-event-shirts',
+    title: 'A planning checklist for team and event T-shirts',
+    description: 'Organize garment choices, size collection, artwork approvals, and delivery planning for a team or event clothing request.',
+    updatedAt: '2026-11-15',
+    category: 'Bulk orders',
+    takeaways: ['Choose one person to consolidate the brief.', 'Collect sizes using a consistent method.', 'Allow time to review and approve the artwork.'],
+    sections: [
+      { heading: 'How do you collect sizes?', paragraphs: ['Share the available size chart and ask each participant to compare it with a garment they own. Record the garment type and size together, and verify the final totals before requesting a quote.'] },
+      { heading: 'What should the artwork include?', paragraphs: ['Prepare a clean logo or design file and identify the intended print position. Ask the studio which file type and resolution it needs, then check the proof for spelling, colour, scale, and placement.'] },
+      { heading: 'When should you start?', paragraphs: ['Start early enough to discuss availability, quote details, artwork changes, sample or proof approval, production, and delivery. A studio must confirm the actual schedule for the specific order.'] },
+    ],
+  },
+  {
+    slug: 'printed-garment-care',
+    title: 'How to care for a garment with a printed design',
+    description: 'Simple care checks can help you avoid damaging printed artwork when washing, drying, or ironing a garment.',
+    updatedAt: '2026-11-15',
+    category: 'Care',
+    takeaways: ['Read the garment care label first.', 'Avoid direct heat on printed artwork.', 'Ask the maker when the decoration has special care instructions.'],
+    sections: [
+      { heading: 'How should you wash a printed garment?', paragraphs: ['Follow the care label and any instructions supplied with the garment. Turning a printed garment inside out can reduce direct rubbing against other items. Use a wash setting appropriate to the garment material rather than assuming all prints tolerate the same conditions.'] },
+      { heading: 'Can you iron over the design?', paragraphs: ['Do not place a hot iron directly on printed artwork unless the care instructions permit it. If ironing is needed, turn the garment inside out or use a protective layer only when consistent with the maker’s guidance.'] },
+      { heading: 'What should you do if the care label is missing?', paragraphs: ['Contact the seller or maker and ask for instructions for that garment and decoration. Different materials and print processes can require different care, so avoid relying on a universal temperature or wash rule.'] },
+    ],
+  },
+  {
+    slug: 'cash-on-delivery',
+    title: 'Questions to ask before choosing cash on delivery',
+    description: 'Understand what to confirm about a cash-on-delivery order before placing it, including payment amount, delivery area, and parcel acceptance.',
+    updatedAt: '2026-11-15',
+    category: 'Ordering',
+    takeaways: ['Check that COD is available for your address.', 'Confirm the final amount and any delivery charge.', 'Review the seller’s order confirmation and parcel policy.'],
+    sections: [
+      { heading: 'What should you confirm before ordering?', paragraphs: ['Check that cash on delivery is available for your location, whether a delivery fee applies, and what amount the courier will collect. Keep the order confirmation so you can compare the parcel details when it arrives.'] },
+      { heading: 'How can you avoid a missed delivery?', paragraphs: ['Use a reachable phone number and a delivery address where someone can receive the parcel. If your plans change, contact the seller as early as possible and follow the instructions provided for rescheduling or cancelling.'] },
+      { heading: 'What is the seller’s refusal policy?', paragraphs: ['Policies vary by seller and may differ for personalized products. Read the terms before ordering and ask the seller how to handle a delayed, damaged, or incorrect parcel. Do not assume the courier can process a return without the seller’s approval.'] },
+    ],
+  },
+];
+
+export const guideAuthor = 'ZAVIKOO Studio Team';

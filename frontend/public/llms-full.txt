@@ -1,0 +1,199 @@
+# ZAVIKOO Custom Atelier
+
+> ZAVIKOO Custom Atelier is a Karachi clothing studio offering oversized graphic T-shirts, winter hoodies, and custom garment designs, with delivery across Pakistan.
+
+## Confirmed business facts
+
+- brandName: ZAVIKOO Custom Atelier
+- city: Karachi
+- region: Sindh
+- country: Pakistan
+- serviceArea: Pakistan
+- email: zavikoocustomatelier@gmail.com
+- phone: +92 335 2794601
+- whatsapp: +92 335 2794601
+- instagramUrl: https://www.instagram.com/zavikoocustomatelier/
+- tiktokUrl: https://www.tiktok.com/@zavikoo.custom.at
+- fabrics: [object Object], [object Object]
+- garmentTypes: [object Object], [object Object]
+- printMethods: [object Object], [object Object]
+- deliveryDays: [object Object]
+- shippingFeePkr: 0
+- freeShippingThresholdPkr: 0
+- codAvailable: true
+- returnWindowDays: 7
+- returnConditions: Ready-made items may be exchanged within 7 days of delivery if unworn, unwashed, undamaged, and with tags and original packaging.
+- exchangePolicy: Ready-made items are eligible for exchange only. The customer pays the delivery charge for the exchange. Errors or defects are resolved at no cost to the customer.
+- customReturnPolicy: Customised items cannot be returned or exchanged for change of mind. Errors or defects on the studio’s side are corrected.
+- artworkRequirements: [object Object]
+- paymentMethods: Cash on Delivery
+
+## Pages
+
+- [Home](https://zavikoocustomatelier.com/)
+- [shop](https://zavikoocustomatelier.com/shop)
+- [collections](https://zavikoocustomatelier.com/collections)
+- [customize](https://zavikoocustomatelier.com/customize)
+- [custom-quote](https://zavikoocustomatelier.com/custom-quote)
+- [about](https://zavikoocustomatelier.com/about)
+- [contact](https://zavikoocustomatelier.com/contact)
+- [faq](https://zavikoocustomatelier.com/faq)
+- [sitemap](https://zavikoocustomatelier.com/sitemap)
+- [size-guide](https://zavikoocustomatelier.com/size-guide)
+- [shipping-policy](https://zavikoocustomatelier.com/shipping-policy)
+- [returns-exchanges](https://zavikoocustomatelier.com/returns-exchanges)
+- [privacy-policy](https://zavikoocustomatelier.com/privacy-policy)
+- [terms-and-conditions](https://zavikoocustomatelier.com/terms-and-conditions)
+- [guides](https://zavikoocustomatelier.com/guides)
+- [guides — artwork-preparation](https://zavikoocustomatelier.com/guides/artwork-preparation)
+- [guides — printing-methods](https://zavikoocustomatelier.com/guides/printing-methods)
+- [guides — garment-fit](https://zavikoocustomatelier.com/guides/garment-fit)
+- [guides — fabric-guide](https://zavikoocustomatelier.com/guides/fabric-guide)
+- [guides — bulk-ordering](https://zavikoocustomatelier.com/guides/bulk-ordering)
+- [guides — team-event-shirts](https://zavikoocustomatelier.com/guides/team-event-shirts)
+- [guides — printed-garment-care](https://zavikoocustomatelier.com/guides/printed-garment-care)
+- [guides — cash-on-delivery](https://zavikoocustomatelier.com/guides/cash-on-delivery)
+
+## How to prepare artwork for garment printing
+
+A practical checklist for discussing artwork files, transparency, placement, and print-ready details with a clothing printer.
+
+### What should you ask before exporting?
+
+File requirements depend on the printing process and the equipment used. Ask the studio which formats it accepts, what maximum file size applies, and whether it needs a transparent background. Do not assume one export setting works for every printer.
+
+### How do you prepare a clean artwork file?
+
+Keep text editable in a source copy, check that the artwork is legible at its intended size, and avoid sending a screenshot when the original file is available. If the design uses transparency, inspect the exported file against both a light and a dark background.
+
+### What should be confirmed before production?
+
+Share the garment type, intended placement, approximate size, and the final artwork. Ask for a preview or written confirmation of the design position before production begins. The accepted formats and resolution requirements should be confirmed with the studio.
+
+Read more: https://zavikoocustomatelier.com/guides/artwork-preparation
+
+## How to compare garment decoration methods
+
+Questions to ask when comparing garment printing and decoration methods for a personal, team, or business order.
+
+### What affects the choice of method?
+
+Artwork complexity, number of colours, garment material, order quantity, placement, and repeat-order needs can all affect the best option. A studio should confirm which methods it offers rather than assuming every decoration technique is available.
+
+### What should you compare?
+
+Ask how the artwork will look at the requested size, whether the garment is suitable, what care instructions apply, and whether setup costs or quantity thresholds change the quote. Compare the complete quote rather than a single per-piece number.
+
+### How do you make a confident decision?
+
+Send the same artwork and garment brief when requesting options. Ask for a sample, digital proof, or a clear explanation of any limitations before approving a production run.
+
+Read more: https://zavikoocustomatelier.com/guides/printing-methods
+
+## How to choose a T-shirt or hoodie size
+
+Use a garment you already own to compare measurements and make a more informed choice about a T-shirt or hoodie fit.
+
+### How should you measure a garment?
+
+Lay a well-fitting garment flat without stretching it. Measure the chest across from side seam to side seam, then measure body length from the highest shoulder point to the hem. Record the sleeve and shoulder measurements if those affect the fit you want.
+
+### How do you compare the measurements?
+
+Compare your garment with the measurements shown for the product you want. A difference of a few centimetres can change the silhouette, so review chest and length together rather than relying only on the size label.
+
+### What if no size chart is available?
+
+Do not guess at exact garment measurements. Contact the studio with the product name and the measurements of a similar garment, and ask which available size is the closest match.
+
+Read more: https://zavikoocustomatelier.com/guides/garment-fit
+
+## Questions to ask about T-shirt and sweatshirt fabric
+
+A practical guide to comparing garment fabric information, including fibre composition, weight, season, and care.
+
+### What does fabric weight tell you?
+
+Fabric weight can help compare two fabrics, but it does not by itself describe softness, breathability, durability, or warmth. Construction, fibre, knit, finishing, and garment design all matter. Ask for the specification rather than inferring it from a product photo.
+
+### Which fabric details are useful?
+
+Look for fibre composition, fabric construction, and a stated weight if the seller provides them. For sweatshirts and hoodies, ask whether the inside is loopback, brushed, or another construction; those terms describe different surfaces and wearing feel.
+
+### How should you care for a garment?
+
+Follow the garment label first. If a printed design is present, turn the garment inside out and avoid ironing directly on the design unless the care instructions explicitly allow it. Ask the seller for care guidance when the label does not answer your question.
+
+Read more: https://zavikoocustomatelier.com/guides/fabric-guide
+
+## How to plan a custom clothing order in bulk
+
+A clear brief helps a clothing studio quote team, event, school, or brand garments with fewer unanswered questions.
+
+### What belongs in a bulk-order brief?
+
+Include the intended use, garment types, estimated quantities, size breakdown, colour preferences, artwork, placement, and the date the garments are needed. Mention whether quantities may change after the first quote.
+
+### How should you compare a quote?
+
+Ask what is included, whether artwork preparation or samples cost extra, how changes affect price, and which payment terms apply. Minimum quantities, production times, and delivery options must be confirmed by the studio; they vary by project.
+
+### Why is approval important?
+
+Before production, confirm the garment, size breakdown, artwork, placement, final quantity, price, and delivery plan. Keep the approved proof and quote so both sides can refer to the same specifications.
+
+Read more: https://zavikoocustomatelier.com/guides/bulk-ordering
+
+## A planning checklist for team and event T-shirts
+
+Organize garment choices, size collection, artwork approvals, and delivery planning for a team or event clothing request.
+
+### How do you collect sizes?
+
+Share the available size chart and ask each participant to compare it with a garment they own. Record the garment type and size together, and verify the final totals before requesting a quote.
+
+### What should the artwork include?
+
+Prepare a clean logo or design file and identify the intended print position. Ask the studio which file type and resolution it needs, then check the proof for spelling, colour, scale, and placement.
+
+### When should you start?
+
+Start early enough to discuss availability, quote details, artwork changes, sample or proof approval, production, and delivery. A studio must confirm the actual schedule for the specific order.
+
+Read more: https://zavikoocustomatelier.com/guides/team-event-shirts
+
+## How to care for a garment with a printed design
+
+Simple care checks can help you avoid damaging printed artwork when washing, drying, or ironing a garment.
+
+### How should you wash a printed garment?
+
+Follow the care label and any instructions supplied with the garment. Turning a printed garment inside out can reduce direct rubbing against other items. Use a wash setting appropriate to the garment material rather than assuming all prints tolerate the same conditions.
+
+### Can you iron over the design?
+
+Do not place a hot iron directly on printed artwork unless the care instructions permit it. If ironing is needed, turn the garment inside out or use a protective layer only when consistent with the maker’s guidance.
+
+### What should you do if the care label is missing?
+
+Contact the seller or maker and ask for instructions for that garment and decoration. Different materials and print processes can require different care, so avoid relying on a universal temperature or wash rule.
+
+Read more: https://zavikoocustomatelier.com/guides/printed-garment-care
+
+## Questions to ask before choosing cash on delivery
+
+Understand what to confirm about a cash-on-delivery order before placing it, including payment amount, delivery area, and parcel acceptance.
+
+### What should you confirm before ordering?
+
+Check that cash on delivery is available for your location, whether a delivery fee applies, and what amount the courier will collect. Keep the order confirmation so you can compare the parcel details when it arrives.
+
+### How can you avoid a missed delivery?
+
+Use a reachable phone number and a delivery address where someone can receive the parcel. If your plans change, contact the seller as early as possible and follow the instructions provided for rescheduling or cancelling.
+
+### What is the seller’s refusal policy?
+
+Policies vary by seller and may differ for personalized products. Read the terms before ordering and ask the seller how to handle a delayed, damaged, or incorrect parcel. Do not assume the courier can process a return without the seller’s approval.
+
+Read more: https://zavikoocustomatelier.com/guides/cash-on-delivery

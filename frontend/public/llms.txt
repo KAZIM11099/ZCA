@@ -1,0 +1,55 @@
+# ZAVIKOO Custom Atelier
+
+> ZAVIKOO Custom Atelier is a Karachi clothing studio offering oversized graphic T-shirts, winter hoodies, and custom garment designs, with delivery across Pakistan.
+
+## Confirmed business facts
+
+- brandName: ZAVIKOO Custom Atelier
+- city: Karachi
+- region: Sindh
+- country: Pakistan
+- serviceArea: Pakistan
+- email: zavikoocustomatelier@gmail.com
+- phone: +92 335 2794601
+- whatsapp: +92 335 2794601
+- instagramUrl: https://www.instagram.com/zavikoocustomatelier/
+- tiktokUrl: https://www.tiktok.com/@zavikoo.custom.at
+- fabrics: [object Object], [object Object]
+- garmentTypes: [object Object], [object Object]
+- printMethods: [object Object], [object Object]
+- deliveryDays: [object Object]
+- shippingFeePkr: 0
+- freeShippingThresholdPkr: 0
+- codAvailable: true
+- returnWindowDays: 7
+- returnConditions: Ready-made items may be exchanged within 7 days of delivery if unworn, unwashed, undamaged, and with tags and original packaging.
+- exchangePolicy: Ready-made items are eligible for exchange only. The customer pays the delivery charge for the exchange. Errors or defects are resolved at no cost to the customer.
+- customReturnPolicy: Customised items cannot be returned or exchanged for change of mind. Errors or defects on the studio’s side are corrected.
+- artworkRequirements: [object Object]
+- paymentMethods: Cash on Delivery
+
+## Pages
+
+- [Home](https://zavikoocustomatelier.com/)
+- [shop](https://zavikoocustomatelier.com/shop)
+- [collections](https://zavikoocustomatelier.com/collections)
+- [customize](https://zavikoocustomatelier.com/customize)
+- [custom-quote](https://zavikoocustomatelier.com/custom-quote)
+- [about](https://zavikoocustomatelier.com/about)
+- [contact](https://zavikoocustomatelier.com/contact)
+- [faq](https://zavikoocustomatelier.com/faq)
+- [sitemap](https://zavikoocustomatelier.com/sitemap)
+- [size-guide](https://zavikoocustomatelier.com/size-guide)
+- [shipping-policy](https://zavikoocustomatelier.com/shipping-policy)
+- [returns-exchanges](https://zavikoocustomatelier.com/returns-exchanges)
+- [privacy-policy](https://zavikoocustomatelier.com/privacy-policy)
+- [terms-and-conditions](https://zavikoocustomatelier.com/terms-and-conditions)
+- [guides](https://zavikoocustomatelier.com/guides)
+- [guides — artwork-preparation](https://zavikoocustomatelier.com/guides/artwork-preparation)
+- [guides — printing-methods](https://zavikoocustomatelier.com/guides/printing-methods)
+- [guides — garment-fit](https://zavikoocustomatelier.com/guides/garment-fit)
+- [guides — fabric-guide](https://zavikoocustomatelier.com/guides/fabric-guide)
+- [guides — bulk-ordering](https://zavikoocustomatelier.com/guides/bulk-ordering)
+- [guides — team-event-shirts](https://zavikoocustomatelier.com/guides/team-event-shirts)
+- [guides — printed-garment-care](https://zavikoocustomatelier.com/guides/printed-garment-care)
+- [guides — cash-on-delivery](https://zavikoocustomatelier.com/guides/cash-on-delivery)

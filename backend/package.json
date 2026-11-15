@@ -1,0 +1,37 @@
+{
+  "name": "zavikoo-backend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:deploy": "prisma migrate deploy",
+    "prisma:generate": "prisma generate",
+    "test": "node --test",
+    "prisma:seed": "node prisma/seed.js",
+    "admin:create": "node scripts/create-admin.js",
+    "admin:reset-password": "node scripts/reset-admin-password.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "compression": "^1.8.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "express-slow-down": "^2.1.0",
+    "google-auth-library": "^11.3.4",
+    "helmet": "^8.0.0",
+    "nodemailer": "^10.3.1",
+    "pino-http": "^11.0.0",
+    "rate-limit-redis": "^4.3.1",
+    "redis": "^6.3.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "prisma": "^5.22.0"
+  }
+}

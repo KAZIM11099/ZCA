@@ -1,0 +1,18 @@
+-- Normalize legacy order lifecycle statuses before narrowing the database enum.
+UPDATE `Order`
+SET `status` = CASE
+  WHEN `status` IN ('AWAITING_DESIGN_APPROVAL', 'QUALITY_CHECK', 'READY_TO_SHIP') THEN 'IN_PRODUCTION'
+  WHEN `status` IN ('RETURNED', 'REFUNDED') THEN 'DELIVERED'
+  ELSE `status`
+END
+WHERE `status` IN (
+  'AWAITING_DESIGN_APPROVAL',
+  'QUALITY_CHECK',
+  'READY_TO_SHIP',
+  'RETURNED',
+  'REFUNDED'
+);
+
+ALTER TABLE `Order`
+MODIFY COLUMN `status` ENUM('PENDING', 'CONFIRMED', 'IN_PRODUCTION', 'SHIPPED', 'DELIVERED', 'CANCELLED') NOT NULL DEFAULT 'PENDING';
+

@@ -1,0 +1,22 @@
+{
+  "name": "ZAVIKOO Custom Atelier",
+  "short_name": "ZAVIKOO",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f0e9",
+  "theme_color": "#14160F",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /cart
+Disallow: /checkout
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /wishlist
+Disallow: /order-confirmation
+Disallow: /api
+Disallow: /*?search=
+Disallow: /*&search=
+Disallow: /*?sort=
+Disallow: /*&sort=
+
+# GPTBot is associated with model training; OAI-SearchBot is used for search retrieval.
+# Google-Extended controls certain training uses; Googlebot handles Search indexing.
+# Anthropic, Perplexity, Common Crawl, and ByteDance publish crawler names/policies that may change.
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /cart
+Disallow: /checkout
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /wishlist
+Disallow: /order-confirmation
+Disallow: /api
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /cart
+Disallow: /checkout
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /wishlist
+Disallow: /order-confirmation
+Disallow: /api
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /cart
+Disallow: /checkout
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /wishlist
+Disallow: /order-confirmation
+Disallow: /api
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /cart
+Disallow: /checkout
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /wishlist
+Disallow: /order-confirmation
+Disallow: /api
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /cart
+Disallow: /checkout
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /wishlist
+Disallow: /order-confirmation
+Disallow: /api
+
+User-agent: CCBot
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /cart
+Disallow: /checkout
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /wishlist
+Disallow: /order-confirmation
+Disallow: /api
+
+User-agent: Bytespider
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /cart
+Disallow: /checkout
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /wishlist
+Disallow: /order-confirmation
+Disallow: /api
+
+Sitemap: https://zavikoocustomatelier.com/sitemap.xml
