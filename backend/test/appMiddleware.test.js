@@ -88,6 +88,17 @@ test('assigns request IDs and applies body limits after route protections', asyn
   const selfCheck = await fetch(`${origin}/api/v1/admin/system/client-ip`);
   assert.equal(selfCheck.status, 401);
 
+  const missingAdminChallenge = await fetch(`${origin}/api/v1/auth/verify-login-code`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Origin: allowedOrigin,
+    },
+    body: JSON.stringify({ code: '123456' }),
+  });
+  assert.equal(missingAdminChallenge.status, 401);
+  assert.match(missingAdminChallenge.headers.get('set-cookie'), /zavikoo_admin_login_challenge=/);
+
   const checkout = await fetch(`${origin}/api/v1/checkout`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

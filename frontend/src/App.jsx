@@ -66,16 +66,14 @@ function CustomerSessionMonitor() {
 
 export default function App() {
   const location = useLocation();
-  const [showIntro, setShowIntro] = useState(false);
-  const [revealHome, setRevealHome] = useState(false);
-
-  useEffect(() => {
+  const [showIntro, setShowIntro] = useState(() => {
     try {
-      if (sessionStorage.getItem('zavikoo-intro-seen') !== 'true') setShowIntro(true);
+      return sessionStorage.getItem('zavikoo-intro-seen') !== 'true';
     } catch {
-      setShowIntro(false);
+      return false;
     }
-  }, []);
+  });
+  const [revealHome, setRevealHome] = useState(false);
 
   useEffect(() => {
     initializeAnalytics();

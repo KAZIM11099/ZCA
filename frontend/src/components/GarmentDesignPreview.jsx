@@ -1,12 +1,12 @@
 import { useRef } from 'react';
-import { customColors, makeDesignPreview } from '../lib/customDesign.js';
+import { getContrastingTextColor, getGarmentColor, makeDesignPreview } from '../lib/customDesign.js';
 
 function getGarmentImage(garmentType, side) {
   return `/garment-models/${garmentType}-${side === 'back' ? 'back' : 'front'}.png`;
 }
 
 function GarmentSide({ layout, side, onPositionChange }) {
-  const color = customColors.find((entry) => entry.name === layout.color) || customColors[0];
+  const color = getGarmentColor(layout);
   const modelImage = getGarmentImage(layout.garmentType, side);
   const previewRef = useRef(null);
   const dragOffsetRef = useRef({ x: 0, y: 0 });
@@ -19,7 +19,7 @@ function GarmentSide({ layout, side, onPositionChange }) {
   const imagePlacement = layout.imagePlacement || 'back';
   const showText = layout.text && (textPlacement === side || textPlacement === 'both');
   const showImage = layout.imageData && (imagePlacement === side || imagePlacement === 'both');
-  const textColor = ['Black', 'Navy', 'Red', 'Blue'].includes(color.name) ? '#fff' : '#202020';
+  const textColor = getContrastingTextColor(color.hex);
   const requestedTextSize = Number(layout.textSize);
   const textSize = Number.isFinite(requestedTextSize) ? Math.min(32, Math.max(12, requestedTextSize)) : 22;
   const textFillStyle = layout.textColorMode === 'gradient'
@@ -284,4 +284,3 @@ export function GarmentDesignBoard({ layout, className = '' }) {
     </div>
   );
 }
-

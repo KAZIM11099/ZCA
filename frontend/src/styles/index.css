@@ -469,7 +469,7 @@
 .drawer-panel { animation: drawer-in 420ms var(--ease) both; }
 
 /* ---------- Intro ---------- */
-.intro-screen { animation: fade 320ms ease-out both; }
+.intro-screen { opacity: 1; }
 .intro-screen-exit { animation: intro-exit 600ms var(--ease) both; pointer-events: none; }
 @keyframes intro-exit { to { opacity: 0; visibility: hidden; transform: translateY(-2%); } }
 .intro-word { animation: wipe 1.5s 200ms var(--ease) both; }

@@ -95,7 +95,7 @@ Requirements: Node.js 20+, MySQL 8+, and PowerShell.
 
    The API health endpoint is `http://localhost:4000/api/v1/health`; the Vite site is `http://localhost:5173`. Admin login is at `/admin/login`.
 
-   Customer accounts can be created from `/register`; customer sign-in is at `/login`. New passwords must be at least 12 characters. Admin credentials do not sign in as customer accounts.
+   Customer accounts can be created from `/register`; customer sign-in is at `/login`. New passwords must be at least 12 characters. Admin credentials do not sign in as customer accounts. Admin sign-in requires a second, 6-digit email code sent to `zavikoocustomatelier@gmail.com`; the code expires after 5 minutes. Its sign-in notice includes an approximate location from the local GeoIP database and the detected device/browser.
 
 ## Useful commands
 

@@ -9,6 +9,21 @@ export const customColors = [
   { name: 'Pink', hex: '#d9a8b2' },
 ];
 
+export function getGarmentColor(layout = {}) {
+  const fallback = customColors.find((entry) => entry.name === layout.color) || customColors[0];
+  const hex = /^#[0-9A-Fa-f]{6}$/.test(layout.colorHex || '') ? layout.colorHex : fallback.hex;
+  return { name: layout.color || fallback.name, hex };
+}
+
+export function getContrastingTextColor(hex) {
+  const channels = hex.match(/[0-9A-Fa-f]{2}/g)?.map((channel) => Number.parseInt(channel, 16) / 255);
+  if (!channels || channels.length !== 3) return '#202020';
+  const [red, green, blue] = channels.map((channel) => (
+    channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4
+  ));
+  return (0.2126 * red + 0.7152 * green + 0.0722 * blue) > 0.45 ? '#202020' : '#ffffff';
+}
+
 export function calculateCustomDesignPricePaisa(basePricePaisa, layout = {}) {
   let surchargePaisa = 0;
   const imageSize = Number(layout.imageSizeInches);
@@ -61,7 +76,7 @@ function dataUri(svg) {
 }
 
 function renderGarment(layout, side, sharedImage = false) {
-  const color = customColors.find((entry) => entry.name === layout.color)?.hex || '#ffffff';
+  const { hex: color } = getGarmentColor(layout);
   const shape = garmentPaths[layout.garmentType] || garmentPaths.tshirt;
   const textPlacement = layout.textPlacement || (layout.placement === 'back' ? 'back' : 'front');
   const imagePlacement = layout.imagePlacement || 'back';
@@ -76,7 +91,7 @@ function renderGarment(layout, side, sharedImage = false) {
   const imageHeight = 58 * imageScale;
   const imageX = 150 - imageWidth / 2;
   const imageY = (side === 'back' ? 157 : 166) - imageHeight / 2;
-  const textColor = ['Black', 'Navy', 'Red', 'Blue'].includes(layout.color) ? '#ffffff' : '#202020';
+  const textColor = getContrastingTextColor(color);
   const gradientAngle = Math.min(360, Math.max(0, Number(layout.textGradientAngle) || 90));
   const radians = gradientAngle * Math.PI / 180;
   const gradientX = 50 + Math.cos(radians) * 50;
@@ -113,4 +128,3 @@ export function makeDesignBoard(layout) {
     : '';
   return dataUri(`<svg xmlns="http://www.w3.org/2000/svg" width="620" height="390" viewBox="0 0 620 390">${definitions}<svg x="5" y="10" width="300" height="360" viewBox="0 0 300 360">${renderGarment(layout, 'front', true)}</svg><svg x="315" y="10" width="300" height="360" viewBox="0 0 300 360">${renderGarment(layout, 'back', true)}</svg></svg>`);
 }
-

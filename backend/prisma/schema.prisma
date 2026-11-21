@@ -88,6 +88,7 @@ model User {
   inventoryMovements InventoryMovement[]
   addresses          Address[]
   passwordResetTokens PasswordResetToken[]
+  adminLoginChallenge AdminLoginChallenge?
 }
 
 model Address {
@@ -130,6 +131,18 @@ model PasswordResetToken {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, expiresAt])
+}
+
+model AdminLoginChallenge {
+  id            Int      @id @default(autoincrement())
+  userId        Int      @unique
+  challengeHash String   @unique @db.Char(64)
+  codeHash      String   @db.Char(64)
+  expiresAt     DateTime
+  createdAt     DateTime @default(now())
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([expiresAt])
 }
 
 model Category {
@@ -235,6 +248,7 @@ model CustomProduct {
   sku            String         @unique @db.VarChar(191)
   garmentType    String         @db.VarChar(40)
   description    String?        @db.Text
+  colors         Json?
   basePricePaisa Int
   isActive       Boolean        @default(true)
   createdAt      DateTime       @default(now())

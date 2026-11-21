@@ -166,7 +166,7 @@ export default function PoliciesPage({ type = 'shipping' }) {
         </div>
       </section>
 
-      <section className="on-dark bg-cargo text-sand">
+      <section className="on-dark bg-olive text-sand">
         <div className="page flex flex-col gap-8 py-16 sm:flex-row sm:items-center sm:justify-between md:py-20">
           <div>
             <h2 className="display-m text-chalk">Let’s find the right answer.</h2>

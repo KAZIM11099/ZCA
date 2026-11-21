@@ -167,7 +167,8 @@ const savedDesignSchema = z.object({
     imageData: z.string().max(7_000_000)
       .refine((value) => !value || isValidDesignImageDataUrl(value), `Use a valid PNG, JPEG, or WebP design image no larger than ${MAX_DESIGN_IMAGE_BYTES / 1024 / 1024} MB.`)
       .default(''),
-    color: z.enum(['White', 'Black', 'Navy', 'Beige', 'Sage', 'Red', 'Blue', 'Pink']),
+    color: z.string().trim().min(1).max(40),
+    colorHex: z.string().regex(/^#[0-9A-Fa-f]{6}$/).optional(),
     size: z.enum(['XS', 'S', 'M', 'L', 'XL']),
     xsMeasurements: z.object({ length: z.number().positive().max(200), chest: z.number().positive().max(300) }).optional(),
     rightsConfirmed: z.literal(true),
@@ -690,9 +691,13 @@ router.post('/designs', verifySameOrigin, async (req, res, next) => {
   try {
     const customProduct = await prisma.customProduct.findFirst({
       where: { id: parsed.data.customProductId, isActive: true },
-      select: { id: true, name: true, garmentType: true },
+      select: { id: true, name: true, garmentType: true, colors: true },
     });
     if (!customProduct) return res.status(404).json({ success: false, error: { message: 'This custom garment is no longer available.' } });
+    const selectedColor = Array.isArray(customProduct.colors)
+      ? customProduct.colors.find((color) => color?.name === parsed.data.design.color)
+      : null;
+    if (!selectedColor) return res.status(400).json({ success: false, error: { message: 'Choose a valid garment color.' } });
     const allowedSizes = customSizesByGarmentType[customProduct.garmentType] || [];
     if (!allowedSizes.includes(parsed.data.design.size)) {
       return res.status(400).json({ success: false, error: { message: 'Choose a valid garment size.' } });
@@ -705,6 +710,7 @@ router.post('/designs', verifySameOrigin, async (req, res, next) => {
       ...design,
       garmentName: customProduct.name,
       garmentType: customProduct.garmentType,
+      colorHex: selectedColor.hex,
     };
     const saved = await prisma.customDesign.create({
       data: {

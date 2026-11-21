@@ -10,7 +10,7 @@ export default function IntroLoader({ onComplete }) {
       setExiting(true);
       return undefined;
     }
-    const timer = window.setTimeout(() => setExiting(true), 600);
+    const timer = window.setTimeout(() => setExiting(true), 2500);
     return () => window.clearTimeout(timer);
   }, []);
 

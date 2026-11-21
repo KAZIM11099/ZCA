@@ -113,6 +113,11 @@ export default function Customize() {
         setProducts(items);
         const initial = items.find((item) => String(item.id) === productId || item.slug === productId) || items[0] || null;
         setProduct(initial);
+        const colors = initial?.colors?.length ? initial.colors : customColors;
+        setSelection((current) => ({
+          ...current,
+          color: colors.some((color) => color.name === current.color) ? current.color : colors[0].name,
+        }));
       })
       .catch(() => setError('Custom garments could not be loaded. Please try again.'));
   }, [productId]);
@@ -124,9 +129,12 @@ export default function Customize() {
       const savedDesign = JSON.parse(window.sessionStorage.getItem(storageKey) || 'null');
       if (!savedDesign) return;
       setDesign((current) => ({ ...current, ...savedDesign }));
+      const colors = product.colors?.length ? product.colors : customColors;
       setSelection((current) => ({
         ...current,
-        color: savedDesign.color || current.color,
+        color: colors.some((color) => color.name === savedDesign.color)
+          ? savedDesign.color
+          : colors[0].name,
         size: availableSizes(product.garmentType).includes(savedDesign.size)
           ? savedDesign.size
           : 'M',
@@ -142,13 +150,15 @@ export default function Customize() {
     }
   }, [product, editKey]);
 
-  const selectedColor = customColors.find((color) => color.name === selection.color) || customColors[0];
+  const productColors = product?.colors?.length ? product.colors : customColors;
+  const selectedColor = productColors.find((color) => color.name === selection.color) || productColors[0];
   const currentLayout = useMemo(() => ({
     ...design,
     ...selection,
+    colorHex: selectedColor?.hex,
     garmentName: product?.name,
     garmentType: product?.garmentType,
-  }), [design, product, selection]);
+  }), [design, product, selection, selectedColor]);
   const finalPricePaisa = product
     ? calculateCustomDesignPricePaisa(product.basePricePaisa, currentLayout)
     : 0;
@@ -159,6 +169,9 @@ export default function Customize() {
     setProduct(selected || null);
     setSelection((current) => ({
       ...current,
+      color: selected?.colors?.some((color) => color.name === current.color)
+        ? current.color
+        : (selected?.colors?.[0]?.name || customColors[0].name),
       size: selected && availableSizes(selected.garmentType).includes(current.size)
         ? current.size
         : 'M',
@@ -211,6 +224,7 @@ export default function Customize() {
     schemaVersion: 1,
     ...design,
     ...selection,
+    colorHex: selectedColor?.hex,
     ...(selection.size === 'XS' && teeGarmentTypes.includes(product.garmentType)
       ? { xsMeasurements: { length: Number(xsMeasurements.length), chest: Number(xsMeasurements.chest) } }
       : {}),
@@ -346,7 +360,7 @@ export default function Customize() {
               <fieldset>
                 <legend className="mb-3 text-[0.9375rem] font-semibold">Colour <span className="ml-1 font-normal text-stone">{selectedColor.name}</span></legend>
                 <div className="flex flex-wrap gap-3">
-                  {customColors.map((color) => (
+                  {productColors.map((color) => (
                     <button key={color.name} type="button" title={color.name} aria-label={`${color.name} colour`} aria-pressed={selection.color === color.name} onClick={() => setSelection((current) => ({ ...current, color: color.name }))} className={`h-10 w-10 border border-ink/25 transition ${selection.color === color.name ? 'ring-2 ring-cargo ring-offset-2 ring-offset-chalk' : 'hover:border-cargo'}`} style={{ backgroundColor: color.hex }} />
                   ))}
                 </div>

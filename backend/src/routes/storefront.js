@@ -248,10 +248,13 @@ router.get('/custom-products', async (req, res, next) => {
   try {
     const products = await prisma.customProduct.findMany({
       where: { isActive: true },
-      select: { id: true, name: true, slug: true, sku: true, garmentType: true, description: true, basePricePaisa: true },
+      select: { id: true, name: true, slug: true, sku: true, garmentType: true, description: true, colors: true, basePricePaisa: true },
       orderBy: [{ createdAt: 'asc' }],
     });
-    return res.json({ success: true, data: products });
+    return res.json({ success: true, data: products.map((product) => ({
+      ...product,
+      colors: Array.isArray(product.colors) ? product.colors : [],
+    })) });
   } catch (error) {
     return next(error);
   }
@@ -619,6 +622,7 @@ const checkoutSchema = z.object({
       garmentName: z.string().trim().max(191).optional(),
       garmentType: z.enum(['tshirt', 'drop-shoulder', 'hoodie', 'sweatshirt', 'long-sleeve']).optional(),
       color: z.string().trim().max(40).optional(),
+      colorHex: z.string().regex(/^#[0-9A-Fa-f]{6}$/).optional(),
       size: z.string().trim().max(40).optional(),
       xsMeasurements: z.object({ length: z.number().positive().max(200), chest: z.number().positive().max(300) }).optional(),
       placement: z.enum(['center', 'back', 'left']).optional(),
@@ -627,7 +631,6 @@ const checkoutSchema = z.object({
     }).refine((design) => Boolean(design.text.trim() || design.imageData), 'Add text or a design image.').optional(),
   })).min(1).max(30),
 });
-const customColorNames = ['White', 'Black', 'Navy', 'Beige', 'Sage', 'Red', 'Blue', 'Pink'];
 const teeGarmentTypes = ['tshirt', 'drop-shoulder', 'long-sleeve'];
 const customSizesByGarmentType = {
   tshirt: ['XS', 'S', 'M', 'L', 'XL'],
@@ -716,7 +719,10 @@ router.post('/checkout', checkoutLimiter, requireCustomer, checkoutJsonParser, c
             throw error;
           }
           const allowedSizes = customSizesByGarmentType[customProduct.garmentType] || [];
-          if (!customColorNames.includes(item.color) || !allowedSizes.includes(item.size)) {
+          const selectedColor = Array.isArray(customProduct.colors)
+            ? customProduct.colors.find((color) => color?.name === item.color)
+            : null;
+          if (!selectedColor || !allowedSizes.includes(item.size)) {
             const error = new Error('Choose a valid garment color and size.');
             error.status = 400;
             throw error;
@@ -757,6 +763,7 @@ router.post('/checkout', checkoutLimiter, requireCustomer, checkoutJsonParser, c
             garmentName: customProduct.name,
             garmentType: customProduct.garmentType,
             color: item.color,
+            colorHex: selectedColor.hex,
             size: item.size,
           };
           let design = null;

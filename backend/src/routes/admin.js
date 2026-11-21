@@ -17,6 +17,18 @@ const supportStaff = [allowRoles('SUPER_ADMIN', 'ADMIN', 'ORDER_MANAGER', 'SUPPO
 const isTransientDatabaseError = (error) => error?.code === 'P1001' || error?.code === 'P2024';
 const wait = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
 
+function notifyCustomerSessionRevoked(req, userId, reason) {
+  try {
+    publishCustomerSessionRevoked(userId, reason);
+  } catch (error) {
+    req.log?.warn({
+      errorType: error.name,
+      errorCode: error.code,
+      userId,
+    }, 'customer session revocation notification failed');
+  }
+}
+
 async function withDatabaseRetry(operation, attempts = 3) {
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
     try {
@@ -105,6 +117,13 @@ const customProductSchema = z.object({
   slug: z.string().trim().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).max(180),
   garmentType: z.enum(['tshirt', 'drop-shoulder', 'hoodie', 'sweatshirt', 'long-sleeve']),
   description: z.string().trim().max(5000).optional().default(''),
+  colors: z.array(z.object({
+    name: z.string().trim().min(1).max(40),
+    hex: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+  })).min(1).max(30).refine(
+    (colors) => new Set(colors.map(({ name }) => name.toLowerCase())).size === colors.length,
+    'Color names must be unique.',
+  ),
   basePricePaisa: z.number().int().positive().max(2147483647),
   isActive: z.boolean().default(true),
 });
@@ -1062,8 +1081,34 @@ router.patch('/customers/:id', ...supportStaff, verifySameOrigin, async (req, re
       return updated;
     });
     if (!customer) return res.status(404).json({ success: false, error: { message: 'Customer not found.' } });
-    if (!customer.isActive) publishCustomerSessionRevoked(customer.id);
+    if (!customer.isActive) notifyCustomerSessionRevoked(req, customer.id);
     return res.json({ success: true, data: customer });
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.get('/customers/:id/deletion-summary', ...supportStaff, async (req, res, next) => {
+  const id = Number(req.params.id);
+  if (!Number.isSafeInteger(id) || id < 1) return res.status(400).json({ success: false, error: { message: 'Invalid customer id.' } });
+  try {
+    const customer = await prisma.user.findFirst({
+      where: { id, role: 'CUSTOMER' },
+      select: { id: true, fullName: true, email: true },
+    });
+    if (!customer) return res.status(404).json({ success: false, error: { message: 'Customer not found.' } });
+    const orders = await prisma.order.findMany({
+      where: { OR: [{ userId: id }, { email: customer.email }] },
+      select: {
+        orderNumber: true,
+        status: true,
+        createdAt: true,
+        totalPaisa: true,
+        items: { select: { nameSnapshot: true, qty: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+    return res.json({ success: true, data: { ...customer, orders } });
   } catch (error) {
     return next(error);
   }
@@ -1072,16 +1117,72 @@ router.patch('/customers/:id', ...supportStaff, verifySameOrigin, async (req, re
 router.delete('/customers/:id', ...supportStaff, verifySameOrigin, async (req, res, next) => {
   const id = Number(req.params.id);
   if (!Number.isSafeInteger(id) || id < 1) return res.status(400).json({ success: false, error: { message: 'Invalid customer id.' } });
+  const parsed = z.object({
+    confirmedOrderNumbers: z.array(z.string().trim().min(1).max(191)).max(5000).default([]),
+  }).safeParse(req.body);
+  if (!parsed.success) return res.status(400).json({ success: false, error: { message: 'Invalid customer deletion confirmation.' } });
   try {
-    const customer = await prisma.user.findFirst({ where: { id, role: 'CUSTOMER' }, select: { id: true } });
-    if (!customer) return res.status(404).json({ success: false, error: { message: 'Customer not found.' } });
-    const orderCount = await prisma.order.count({ where: { userId: id } });
-    if (orderCount > 0) return res.status(409).json({ success: false, error: { message: 'Customers with orders cannot be deleted. Block the account instead.' } });
-    await prisma.$transaction(async (tx) => {
+    const deleted = await prisma.$transaction(async (tx) => {
+      const customer = await tx.user.findFirst({ where: { id, role: 'CUSTOMER' }, select: { id: true, email: true } });
+      if (!customer) return null;
+      const orderWhere = { OR: [{ userId: id }, { email: customer.email }] };
+      const orders = await tx.order.findMany({
+        where: orderWhere,
+        select: { id: true, orderNumber: true },
+        orderBy: { orderNumber: 'asc' },
+      });
+      const confirmedOrderNumbers = [...parsed.data.confirmedOrderNumbers].sort();
+      const orderNumbersMatch = orders.length === confirmedOrderNumbers.length
+        && orders.every((order, index) => order.orderNumber === confirmedOrderNumbers[index]);
+      if (!orderNumbersMatch) {
+        return { needsRefresh: true, orderCount: orders.length };
+      }
+
+      const orderIds = orders.map((order) => order.id);
+      const orderDesigns = orderIds.length
+        ? await tx.orderItem.findMany({ where: { orderId: { in: orderIds }, designId: { not: null } }, select: { designId: true } })
+        : [];
+      const orderDesignIds = orderDesigns.map((item) => item.designId);
+      await tx.shipment.deleteMany({ where: { orderId: { in: orderIds } } });
+      await tx.payment.deleteMany({ where: { orderId: { in: orderIds } } });
+      await tx.order.deleteMany({ where: { id: { in: orderIds } } });
+      await tx.customDesign.deleteMany({
+        where: {
+          OR: [
+            { userId: id },
+            { id: { in: orderDesignIds } },
+          ],
+        },
+      });
+      await tx.quote.deleteMany({ where: { OR: [{ userId: id }, { email: customer.email }] } });
+      await tx.contactMessage.deleteMany({ where: { email: customer.email } });
+      await tx.productReview.deleteMany({ where: { reviewerEmail: customer.email } });
+      await tx.newsletterSubscriber.deleteMany({ where: { email: customer.email } });
+      await tx.inventoryMovement.deleteMany({ where: { actorId: id } });
+      await tx.auditLog.deleteMany({
+        where: {
+          OR: [
+            { actorId: id },
+            { targetType: 'User', targetId: String(id) },
+          ],
+        },
+      });
       await tx.user.delete({ where: { id } });
       await audit(tx, req, 'customer.deleted', 'User', id);
-    });
-    return res.json({ success: true, data: { deleted: true } });
+      return { needsRefresh: false, orderCount: orderIds.length };
+    }, { maxWait: 10000, timeout: 30000 });
+    if (!deleted) return res.status(404).json({ success: false, error: { message: 'Customer not found.' } });
+    if (deleted.needsRefresh) {
+      return res.status(409).json({
+        success: false,
+        error: {
+          message: 'The customer’s orders changed since you opened this dialog. Close it and review the updated order list before deleting.',
+          orderCount: deleted.orderCount,
+        },
+      });
+    }
+    notifyCustomerSessionRevoked(req, id, 'account-deleted');
+    return res.json({ success: true, data: { deleted: true, orderCount: deleted.orderCount } });
   } catch (error) {
     return next(error);
   }

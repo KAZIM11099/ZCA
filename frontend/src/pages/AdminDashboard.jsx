@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { api, getData } from '../lib/api.js';
 import { Wordmark } from '../components/Wordmark.jsx';
 import { GarmentDesignBoard } from '../components/GarmentDesignPreview.jsx';
-import { garmentTypes } from '../lib/customDesign.js';
+import { customColors, garmentTypes } from '../lib/customDesign.js';
 import { useToast } from '../context/ToastContext.jsx';
 
 const navItems = [
@@ -211,12 +211,14 @@ export default function AdminDashboard() {
   const [collectionProductPage, setCollectionProductPage] = useState(1);
   const [selectedCollectionId, setSelectedCollectionId] = useState(null);
   const [customProductTab, setCustomProductTab] = useState('add');
+  const [newCustomProductColors, setNewCustomProductColors] = useState([]);
   const [heroFilePreview, setHeroFilePreview] = useState('');
   const [collectionBannerPreview, setCollectionBannerPreview] = useState('');
   const [headerAnnouncementText, setHeaderAnnouncementText] = useState('');
   const [heroTab, setHeroTab] = useState('images');
   const [editingProduct, setEditingProduct] = useState(null);
   const [deleteProduct, setDeleteProduct] = useState(null);
+  const [customerDeletion, setCustomerDeletion] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [selectedQuote, setSelectedQuote] = useState(null);
   const [selectedContactMessage, setSelectedContactMessage] = useState(null);
@@ -330,6 +332,32 @@ export default function AdminDashboard() {
     } finally {
       setBusy(false);
     }
+  };
+
+  const openCustomerDeletion = async (customer) => {
+    setCustomerDeletion({ customer, summary: null, loading: true, error: '' });
+    try {
+      const summary = await getData(`/admin/customers/${customer.id}/deletion-summary`);
+      setCustomerDeletion({ customer, summary, loading: false, error: '' });
+    } catch (requestError) {
+      setCustomerDeletion({
+        customer,
+        summary: null,
+        loading: false,
+        error: requestError.response?.data?.error?.message || 'Could not load customer orders.',
+      });
+    }
+  };
+
+  const confirmCustomerDeletion = async () => {
+    if (!customerDeletion?.summary) return;
+    const success = await act(
+      () => api.delete(`/admin/customers/${customerDeletion.customer.id}`, {
+        data: { confirmedOrderNumbers: customerDeletion.summary.orders.map((order) => order.orderNumber) },
+      }),
+      'Customer and associated data permanently deleted.',
+    );
+    if (success) setCustomerDeletion(null);
   };
 
   const logout = async () => {
@@ -501,6 +529,10 @@ export default function AdminDashboard() {
 
   const addCustomProduct = async (event) => {
     event.preventDefault();
+    if (!newCustomProductColors.length) {
+      setError('Add at least one garment color before saving this custom product.');
+      return;
+    }
     const formElement = event.currentTarget;
     const form = new FormData(formElement);
     const saved = await act(() => api.post('/admin/custom-products', {
@@ -508,11 +540,13 @@ export default function AdminDashboard() {
       slug: slugFromName(form.get('name')),
       garmentType: form.get('garmentType'),
       description: form.get('description'),
+      colors: newCustomProductColors,
       basePricePaisa: Math.round(Number(form.get('basePrice')) * 100),
       isActive: form.get('isActive') === 'on',
     }), 'Custom garment added.');
     if (saved) {
       formElement.reset();
+      setNewCustomProductColors([]);
       setCustomProductTab('manage');
     }
   };
@@ -981,6 +1015,7 @@ export default function AdminDashboard() {
               <select name="garmentType" required className="admin-input"><option value="">Choose 2D garment model</option>{garmentTypes.map((type) => <option key={type.value} value={type.value}>{type.label}</option>)}</select>
               <input name="basePrice" type="number" min="0.01" step="0.01" required placeholder="Price (PKR)" className="admin-input" />
               <textarea name="description" maxLength="5000" placeholder="Optional description" className="admin-input sm:col-span-2" />
+              <CustomColorEditor colors={newCustomProductColors} onChange={setNewCustomProductColors} />
               <label className="flex items-center gap-2 text-sm"><input name="isActive" type="checkbox" defaultChecked /> Available in customizer</label>
               <div className="sm:col-span-2"><button disabled={busy} className="btn btn-primary">{busy ? 'Saving…' : 'Add custom product'}</button></div>
             </form>
@@ -998,7 +1033,7 @@ export default function AdminDashboard() {
 
     if (section === 'customers') {
       return <Panel title="Customers"><DataTable headers={['Name', 'Email', 'Phone', 'Orders', 'Joined', 'Action']}>
-        {(data?.items || []).map((item) => <CustomerRow key={item.id} customer={item} busy={busy} act={act} />)}
+        {(data?.items || []).map((item) => <CustomerRow key={item.id} customer={item} busy={busy || Boolean(customerDeletion?.loading)} act={act} onDelete={openCustomerDeletion} />)}
       </DataTable><Pagination data={data} page={currentPage} onChange={setCurrentPage} /></Panel>;
     }
 
@@ -1109,6 +1144,17 @@ export default function AdminDashboard() {
             </div>
           </div>
         </div>
+      )}
+      {customerDeletion && (
+        <CustomerDeleteModal
+          customer={customerDeletion.customer}
+          summary={customerDeletion.summary}
+          loading={customerDeletion.loading}
+          error={customerDeletion.error}
+          busy={busy}
+          onClose={() => setCustomerDeletion(null)}
+          onConfirm={confirmCustomerDeletion}
+        />
       )}
     </div>
   );
@@ -1459,16 +1505,11 @@ function OrderItemCard({ item, onPreview }) {
   );
 }
 
-function CustomerRow({ customer, busy, act }) {
+function CustomerRow({ customer, busy, act, onDelete }) {
   const toggleStatus = () => {
     const action = customer.isActive ? 'block' : 'unblock';
     if (window.confirm(`Are you sure you want to ${action} ${customer.fullName}?`)) {
       act(() => api.patch(`/admin/customers/${customer.id}`, { isActive: !customer.isActive }), `Customer ${action}ed.`);
-    }
-  };
-  const remove = () => {
-    if (window.confirm(`Delete ${customer.fullName}? This cannot be undone.`)) {
-      act(() => api.delete(`/admin/customers/${customer.id}`), 'Customer deleted.');
     }
   };
   return (
@@ -1476,10 +1517,76 @@ function CustomerRow({ customer, busy, act }) {
       <td className="px-3 py-3 font-bold">{customer.fullName}<span className={`mt-1 block text-xs font-semibold ${customer.isActive ? 'text-green-700' : 'text-red-700'}`}>{customer.isActive ? 'Active' : 'Blocked'}</span></td>
       <td className="break-all px-3 py-3">{customer.email}</td>
       <td className="px-3 py-3">{customer.phone || '—'}</td>
-      <td className="px-3 py-3">{customer._count.orders}</td>
+      <td className="px-3 py-3">{customer._count?.orders ?? 0}</td>
       <td className="px-3 py-3">{new Date(customer.createdAt).toLocaleDateString()}</td>
-      <td className="px-3 py-3"><div className="flex flex-wrap gap-3"><button type="button" disabled={busy} onClick={toggleStatus} className="font-bold text-orange">{customer.isActive ? 'Block' : 'Unblock'}</button><button type="button" disabled={busy} onClick={remove} className="font-bold text-red-700">Delete</button></div></td>
+      <td className="px-3 py-3"><div className="flex flex-wrap gap-3"><button type="button" disabled={busy} onClick={toggleStatus} className="font-bold text-orange">{customer.isActive ? 'Block' : 'Unblock'}</button><button type="button" disabled={busy} onClick={() => onDelete(customer)} className="font-bold text-red-700">Delete</button></div></td>
     </tr>
+  );
+}
+
+function CustomerDeleteModal({ customer, summary, loading, error, busy, onClose, onConfirm }) {
+  const onCloseRef = useRef(onClose);
+  const busyRef = useRef(busy);
+  useEffect(() => { onCloseRef.current = onClose; }, [onClose]);
+  busyRef.current = busy;
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape' && !busyRef.current) onCloseRef.current();
+    };
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, []);
+
+  const orders = summary?.orders || [];
+  return (
+    <div className="fixed inset-0 z-[70] grid place-items-center bg-cargo/75 p-4" role="dialog" aria-modal="true" aria-labelledby="delete-customer-title" aria-describedby="delete-customer-description">
+      <div className="max-h-[calc(100vh-2rem)] w-full max-w-2xl overflow-y-auto rounded-card border-2 border-ink bg-cream p-5 shadow-soft md:p-7">
+        <h2 id="delete-customer-title" className="text-2xl text-red-800">Permanently delete customer?</h2>
+        <p id="delete-customer-description" className="mt-3 text-charcoal">
+          Are you sure you want to delete <strong>{customer.fullName}</strong> with their orders and subscriptions? All data associated with this customer will be permanently deleted and cannot be recovered.
+        </p>
+        <p className="mt-2 break-all text-sm text-charcoal">{customer.email}</p>
+
+        {loading && <p className="mt-5 rounded-card border border-ink/15 bg-chalk p-4">Loading customer orders…</p>}
+        {error && <p role="alert" className="mt-5 rounded-card border border-red-300 bg-red-50 p-4 text-red-800">{error}</p>}
+        {summary && (
+          <section className="mt-5">
+            <h3 className="font-bold">Orders to be deleted ({orders.length})</h3>
+            {orders.length ? (
+              <ul className="mt-3 max-h-64 space-y-3 overflow-y-auto">
+                {orders.map((order) => (
+                  <li key={order.orderNumber} className="rounded-card border border-ink/15 bg-chalk p-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <strong>{order.orderNumber}</strong>
+                      <span className="rounded-full border border-ink/15 px-2 py-1 text-xs font-bold">{order.status}</span>
+                    </div>
+                    <p className="mt-1 text-sm text-charcoal">
+                      {new Date(order.createdAt).toLocaleDateString()} · {money(order.totalPaisa)}
+                    </p>
+                    <p className="mt-1 text-sm text-charcoal">
+                      {order.items.map((item) => `${item.nameSnapshot} × ${item.qty}`).join(', ')}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            ) : <p className="mt-2 text-sm text-charcoal">No orders are linked to this customer.</p>}
+          </section>
+        )}
+
+        <div className="mt-6 flex flex-wrap justify-end gap-3">
+          <button type="button" disabled={busy} onClick={onClose} className="btn btn-secondary">Cancel</button>
+          <button type="button" disabled={busy || loading || !summary || Boolean(error)} onClick={onConfirm} className="btn bg-red-700 text-white hover:bg-red-800">
+            {busy ? 'Deleting…' : 'Yes, delete permanently'}
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -1518,17 +1625,62 @@ function DesignRow({ design, busy, act }) {
   );
 }
 
+function CustomColorEditor({ colors, onChange }) {
+  const [name, setName] = useState('');
+  const [hex, setHex] = useState('#ffffff');
+  const duplicateName = colors.some((color) => color.name.toLowerCase() === name.trim().toLowerCase());
+  const addColor = () => {
+    const trimmedName = name.trim();
+    if (!trimmedName || duplicateName) return;
+    onChange([...colors, { name: trimmedName, hex }]);
+    setName('');
+  };
+
+  return (
+    <fieldset className="grid gap-3 rounded-card border border-ink/15 p-4 sm:col-span-2">
+      <legend className="px-1 text-sm font-bold">Colors for this 2D model</legend>
+      <p className="text-xs text-charcoal">Choose any solid color, give it a name, then add it to this garment’s available options.</p>
+      <div className="grid items-end gap-3 sm:grid-cols-[auto_1fr_auto]">
+        <label className="flex items-center gap-2 text-sm font-semibold">
+          <input type="color" value={hex} onChange={(event) => setHex(event.target.value)} className="h-11 w-14 cursor-pointer rounded border border-ink/20 bg-white p-1" aria-label="Choose garment color" />
+          <span>{name.trim() || 'Selected color'}</span>
+        </label>
+        <label className="text-sm font-semibold">
+          Color name
+          <input value={name} onChange={(event) => setName(event.target.value)} maxLength={40} placeholder="e.g. Forest Green" className="admin-input mt-1" />
+        </label>
+        <button type="button" onClick={addColor} disabled={!name.trim() || duplicateName || colors.length >= 30} className="btn btn-secondary disabled:cursor-not-allowed disabled:opacity-50">Add color</button>
+      </div>
+      {duplicateName && <p className="text-sm text-red-700" role="alert">Use a different name for each color.</p>}
+      <div className="flex flex-wrap gap-2" aria-label="Added garment colors">
+        {colors.map((color) => (
+          <span key={color.name} className="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-white px-3 py-1.5 text-sm">
+            <span aria-hidden="true" className="h-4 w-4 rounded-full border border-ink/20" style={{ backgroundColor: color.hex }} />
+            <span>{color.name}</span>
+            <span className="text-xs text-charcoal">{color.hex.toUpperCase()}</span>
+            <button type="button" onClick={() => onChange(colors.filter((entry) => entry.name !== color.name))} className="ml-1 font-bold text-red-700" aria-label={`Remove ${color.name}`}>×</button>
+          </span>
+        ))}
+        {!colors.length && <span className="text-sm text-charcoal">No colors added yet.</span>}
+      </div>
+    </fieldset>
+  );
+}
+
 function CustomProductRow({ item, busy, act }) {
   const [editing, setEditing] = useState(false);
+  const [colors, setColors] = useState(Array.isArray(item.colors) && item.colors.length ? item.colors : customColors);
   const garment = garmentTypes.find((type) => type.value === item.garmentType) || garmentTypes[0];
   const save = async (event) => {
     event.preventDefault();
+    if (!colors.length) return;
     const form = new FormData(event.currentTarget);
     const success = await act(() => api.patch(`/admin/custom-products/${item.id}`, {
       name: form.get('name'),
       slug: slugFromName(form.get('name')),
       garmentType: form.get('garmentType'),
       description: form.get('description'),
+      colors,
       basePricePaisa: Math.round(Number(form.get('basePrice')) * 100),
       isActive: form.get('isActive') === 'on',
     }), 'Custom garment updated.');
@@ -1550,14 +1702,18 @@ function CustomProductRow({ item, busy, act }) {
           <select name="garmentType" defaultValue={item.garmentType} className="admin-input" aria-label="Garment model">{garmentTypes.map((type) => <option key={type.value} value={type.value}>{type.label}</option>)}</select>
           <input name="basePrice" type="number" min="0.01" step="0.01" required defaultValue={(item.basePricePaisa / 100).toFixed(2)} className="admin-input" aria-label="Price in PKR" />
           <textarea name="description" maxLength="5000" defaultValue={item.description || ''} className="admin-input sm:col-span-2" aria-label="Description" />
+          <CustomColorEditor colors={colors} onChange={setColors} />
           <label className="flex items-center gap-2 text-sm"><input name="isActive" type="checkbox" defaultChecked={item.isActive} />Available in customizer</label>
-          <div className="flex gap-3 sm:col-span-2"><button disabled={busy} className="btn btn-primary">Save changes</button><button type="button" onClick={() => setEditing(false)} className="btn btn-secondary">Cancel</button></div>
+          <div className="flex gap-3 sm:col-span-2"><button disabled={busy || !colors.length} className="btn btn-primary">Save changes</button><button type="button" onClick={() => setEditing(false)} className="btn btn-secondary">Cancel</button></div>
         </form>
       ) : (
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <h3 className="font-semibold">{item.name}</h3>
             <p className="mt-1 text-xs text-charcoal">{garment.label} · {item.sku} · <span className="price-text">PKR {(item.basePricePaisa / 100).toLocaleString('en-PK')}</span></p>
+            <div className="mt-2 flex flex-wrap gap-2" aria-label="Available garment colors">
+              {(item.colors || []).map((color) => <span key={color.name} title={`${color.name} (${color.hex})`} className="inline-flex items-center gap-1.5 rounded-full border border-ink/15 px-2 py-1 text-xs"><span aria-hidden="true" className="h-3 w-3 rounded-full border border-ink/20" style={{ backgroundColor: color.hex }} />{color.name}</span>)}
+            </div>
             <span className={`mt-2 inline-flex text-[10px] font-semibold uppercase tracking-[0.12em] ${item.isActive ? 'text-green-800' : 'text-charcoal'}`}>{item.isActive ? 'Available' : 'Hidden'}</span>
           </div>
           <div className="flex gap-3"><button disabled={busy} type="button" onClick={() => setEditing(true)} className="text-sm font-semibold text-orange underline">Edit</button><button disabled={busy} type="button" onClick={remove} className="text-sm font-semibold text-red-700 underline">Delete</button></div>
