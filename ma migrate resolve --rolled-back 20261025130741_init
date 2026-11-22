@@ -1,0 +1,104 @@
+[1mdiff --git a/backend/prisma/migrations/20261025130741_init/migration.sql b/backend/prisma/migrations/20261025130741_init/migration.sql[m
+[1mindex 720684d..07574c3 100644[m
+[1m--- a/backend/prisma/migrations/20261025130741_init/migration.sql[m
+[1m+++ b/backend/prisma/migrations/20261025130741_init/migration.sql[m
+[36m@@ -16,8 +16,7 @@[m [mCREATE TABLE `User` ([m
+ -- CreateTable[m
+ CREATE TABLE `Category` ([m
+     `id` INTEGER NOT NULL AUTO_INCREMENT,[m
+[31m-    [m
+[31m-ame` VARCHAR(191) NOT NULL,[m
+[32m+[m[32m    `name` VARCHAR(191) NOT NULL,[m
+     `slug` VARCHAR(191) NOT NULL,[m
+     `parentId` INTEGER NULL,[m
+     `sortOrder` INTEGER NOT NULL DEFAULT 0,[m
+[36m@@ -30,8 +29,7 @@[m [mame` VARCHAR(191) NOT NULL,[m
+ -- CreateTable[m
+ CREATE TABLE `Collection` ([m
+     `id` INTEGER NOT NULL AUTO_INCREMENT,[m
+[31m-    [m
+[31m-ame` VARCHAR(191) NOT NULL,[m
+[32m+[m[32m    `name` VARCHAR(191) NOT NULL,[m
+     `slug` VARCHAR(191) NOT NULL,[m
+     `description` TEXT NULL,[m
+     `isActive` BOOLEAN NOT NULL DEFAULT true,[m
+[36m@@ -52,8 +50,7 @@[m [mCREATE TABLE `CollectionProduct` ([m
+ -- CreateTable[m
+ CREATE TABLE `Product` ([m
+     `id` INTEGER NOT NULL AUTO_INCREMENT,[m
+[31m-    [m
+[31m-ame` VARCHAR(191) NOT NULL,[m
+[32m+[m[32m    `name` VARCHAR(191) NOT NULL,[m
+     `slug` VARCHAR(191) NOT NULL,[m
+     `sku` VARCHAR(191) NOT NULL,[m
+     `description` TEXT NULL,[m
+[36m@@ -161,8 +158,7 @@[m [mCREATE TABLE `OrderItem` ([m
+     `id` INTEGER NOT NULL AUTO_INCREMENT,[m
+     `orderId` INTEGER NOT NULL,[m
+     `variantId` INTEGER NULL,[m
+[31m-    [m
+[31m-ameSnapshot` VARCHAR(191) NOT NULL,[m
+[32m+[m[32m    `nameSnapshot` VARCHAR(191) NOT NULL,[m
+     `skuSnapshot` VARCHAR(191) NOT NULL,[m
+     `size` VARCHAR(191) NOT NULL,[m
+     `color` VARCHAR(191) NOT NULL,[m
+[1mdiff --git a/backend/prisma/migrations/20261025183000_commerce_admin_core/migration.sql b/backend/prisma/migrations/20261025183000_commerce_admin_core/migration.sql[m
+[1mindex 91b1006..1fa8862 100644[m
+[1m--- a/backend/prisma/migrations/20261025183000_commerce_admin_core/migration.sql[m
+[1m+++ b/backend/prisma/migrations/20261025183000_commerce_admin_core/migration.sql[m
+[36m@@ -18,8 +18,7 @@[m [mCREATE TABLE `Session` ([m
+ [m
+ CREATE TABLE `Quote` ([m
+     `id` INTEGER NOT NULL AUTO_INCREMENT,[m
+[31m-    [m
+[31m-ame` VARCHAR(191) NOT NULL,[m
+[32m+[m[32m    `name` VARCHAR(191) NOT NULL,[m
+     `email` VARCHAR(191) NOT NULL,[m
+     `projectType` VARCHAR(191) NOT NULL,[m
+     `details` TEXT NOT NULL,[m
+[1mdiff --git a/backend/prisma/migrations/20261025210000_contact_messages/migration.sql b/backend/prisma/migrations/20261025210000_contact_messages/migration.sql[m
+[1mindex 98a7b16..eaf4945 100644[m
+[1m--- a/backend/prisma/migrations/20261025210000_contact_messages/migration.sql[m
+[1m+++ b/backend/prisma/migrations/20261025210000_contact_messages/migration.sql[m
+[36m@@ -1,7 +1,6 @@[m
+ CREATE TABLE `ContactMessage` ([m
+     `id` INTEGER NOT NULL AUTO_INCREMENT,[m
+[31m-    [m
+[31m-ame` VARCHAR(191) NOT NULL,[m
+[32m+[m[32m    `name` VARCHAR(191) NOT NULL,[m
+     `email` VARCHAR(191) NOT NULL,[m
+     `phone` VARCHAR(40) NULL,[m
+     `subject` VARCHAR(191) NOT NULL,[m
+[1mdiff --git a/backend/prisma/migrations/20261026010000_gender_collections/migration.sql b/backend/prisma/migrations/20261026010000_gender_collections/migration.sql[m
+[1mindex e6e9fd4..45a4c91 100644[m
+[1m--- a/backend/prisma/migrations/20261026010000_gender_collections/migration.sql[m
+[1m+++ b/backend/prisma/migrations/20261026010000_gender_collections/migration.sql[m
+[36m@@ -1,13 +1,10 @@[m
+[31m-INSERT INTO `Collection` ([m
+[31m-ame`, `slug`, `description`, `isActive`)[m
+[32m+[m[32mINSERT INTO `Collection` (`name`, `slug`, `description`, `isActive`)[m
+ VALUES[m
+     ('Men', 'men', 'A considered edit of everyday essentials and custom pieces for men.', TRUE),[m
+     ('Women', 'women', 'A considered edit of everyday essentials and custom pieces for women.', TRUE),[m
+     ('Kids', 'kids', 'Comfortable, expressive essentials made for little ones.', TRUE)[m
+ ON DUPLICATE KEY UPDATE[m
+[31m-    [m
+[31m-ame` = VALUES([m
+[31m-ame`),[m
+[32m+[m[32m    `name` = VALUES(`name`),[m
+     `description` = VALUES(`description`),[m
+     `isActive` = TRUE;[m
+ [m
+[1mdiff --git a/backend/prisma/migrations/20261027010000_custom_garments/migration.sql b/backend/prisma/migrations/20261027010000_custom_garments/migration.sql[m
+[1mindex f6a1500..f961c4e 100644[m
+[1m--- a/backend/prisma/migrations/20261027010000_custom_garments/migration.sql[m
+[1m+++ b/backend/prisma/migrations/20261027010000_custom_garments/migration.sql[m
+[36m@@ -1,7 +1,6 @@[m
+ CREATE TABLE `CustomProduct` ([m
+     `id` INTEGER NOT NULL AUTO_INCREMENT,[m
+[31m-    [m
+[31m-ame` VARCHAR(191) NOT NULL,[m
+[32m+[m[32m    `name` VARCHAR(191) NOT NULL,[m
+     `slug` VARCHAR(191) NOT NULL,[m
+     `sku` VARCHAR(191) NOT NULL,[m
+     `garmentType` VARCHAR(40) NOT NULL,[m

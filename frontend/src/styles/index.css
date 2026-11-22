@@ -313,6 +313,9 @@
   .shop-pagination__arrow:disabled { cursor: not-allowed; opacity: 0.3; }
   @media (max-width: 639px) {
     .shop-filters { padding-block: 1rem; }
+    .shop-filters .atelier-dropdown__menu {
+      position: static; margin-top: 0.45rem;
+    }
   }
   textarea.field { padding-top: 0.85rem; line-height: 1.6; }
   select.field, select.admin-input {

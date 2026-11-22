@@ -18,8 +18,7 @@ CREATE TABLE `Session` (
 
 CREATE TABLE `Quote` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    
-ame` VARCHAR(191) NOT NULL,
+    `name` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `projectType` VARCHAR(191) NOT NULL,
     `details` TEXT NOT NULL,

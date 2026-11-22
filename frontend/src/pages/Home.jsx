@@ -310,7 +310,7 @@ export default function Home() {
           <div className="hero-fade relative lg:col-span-6 lg:col-start-7" style={{ '--d': '350ms' }}>
             <div aria-hidden="true" className="absolute -bottom-4 -right-4 hidden h-full w-full border border-brass/60 sm:block" />
             <div className="photo hero-photo relative aspect-[4/5] w-full overflow-hidden sm:aspect-[5/6] lg:aspect-auto lg:h-[min(62vh,38rem)]">
-              <img src={heroSlides[0] || heroImage} alt={productImageAlt({ name: 'T-shirt mock-up' }, 'front')} fetchpriority="high" width="768" height="1063" className="absolute inset-0" />
+              <img src={heroSlides[0] || heroImage} alt={productImageAlt({ name: 'T-shirt mock-up' }, 'front')} fetchpriority="high" width="768" height="1063" className="absolute inset-0" crossOrigin="anonymous" />
               <HeroImageShift images={heroSlides} />
             </div>
           </div>

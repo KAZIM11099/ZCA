@@ -1,7 +1,6 @@
 CREATE TABLE `CustomProduct` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    
-ame` VARCHAR(191) NOT NULL,
+    `name` VARCHAR(191) NOT NULL,
     `slug` VARCHAR(191) NOT NULL,
     `sku` VARCHAR(191) NOT NULL,
     `garmentType` VARCHAR(40) NOT NULL,
@@ -18,9 +17,13 @@ ame` VARCHAR(191) NOT NULL,
 
 ALTER TABLE `CustomDesign`
     MODIFY `productId` INTEGER NULL,
-    ADD COLUMN `customProductId` INTEGER NULL,
+    ADD COLUMN `customProductId` INTEGER NULL;
+
+ALTER TABLE `CustomDesign`
     ADD INDEX `CustomDesign_userId_createdAt_idx`(`userId`, `createdAt`),
-    ADD INDEX `CustomDesign_customProductId_idx`(`customProductId`),
+    ADD INDEX `CustomDesign_customProductId_idx`(`customProductId`);
+
+ALTER TABLE `CustomDesign`
     ADD CONSTRAINT `CustomDesign_customProductId_fkey`
         FOREIGN KEY (`customProductId`) REFERENCES `CustomProduct`(`id`)
         ON DELETE SET NULL ON UPDATE CASCADE;

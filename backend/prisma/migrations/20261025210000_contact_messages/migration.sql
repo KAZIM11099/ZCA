@@ -1,7 +1,6 @@
 CREATE TABLE `ContactMessage` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    
-ame` VARCHAR(191) NOT NULL,
+    `name` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `phone` VARCHAR(40) NULL,
     `subject` VARCHAR(191) NOT NULL,

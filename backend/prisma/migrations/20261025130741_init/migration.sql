@@ -16,8 +16,7 @@ CREATE TABLE `User` (
 -- CreateTable
 CREATE TABLE `Category` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    
-ame` VARCHAR(191) NOT NULL,
+    `name` VARCHAR(191) NOT NULL,
     `slug` VARCHAR(191) NOT NULL,
     `parentId` INTEGER NULL,
     `sortOrder` INTEGER NOT NULL DEFAULT 0,
@@ -30,8 +29,7 @@ ame` VARCHAR(191) NOT NULL,
 -- CreateTable
 CREATE TABLE `Collection` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    
-ame` VARCHAR(191) NOT NULL,
+    `name` VARCHAR(191) NOT NULL,
     `slug` VARCHAR(191) NOT NULL,
     `description` TEXT NULL,
     `isActive` BOOLEAN NOT NULL DEFAULT true,
@@ -52,8 +50,7 @@ CREATE TABLE `CollectionProduct` (
 -- CreateTable
 CREATE TABLE `Product` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    
-ame` VARCHAR(191) NOT NULL,
+    `name` VARCHAR(191) NOT NULL,
     `slug` VARCHAR(191) NOT NULL,
     `sku` VARCHAR(191) NOT NULL,
     `description` TEXT NULL,
@@ -161,8 +158,7 @@ CREATE TABLE `OrderItem` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `orderId` INTEGER NOT NULL,
     `variantId` INTEGER NULL,
-    
-ameSnapshot` VARCHAR(191) NOT NULL,
+    `nameSnapshot` VARCHAR(191) NOT NULL,
     `skuSnapshot` VARCHAR(191) NOT NULL,
     `size` VARCHAR(191) NOT NULL,
     `color` VARCHAR(191) NOT NULL,

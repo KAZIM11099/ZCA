@@ -1,6 +1,8 @@
 -- AlterTable
 ALTER TABLE `CarouselImage`
-    ADD COLUMN `productId` INTEGER NULL,
+    ADD COLUMN `productId` INTEGER NULL;
+
+ALTER TABLE `CarouselImage`
     ADD INDEX `CarouselImage_productId_idx`(`productId`);
 
 -- AddForeignKey
