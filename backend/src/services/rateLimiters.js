@@ -18,15 +18,13 @@ if (env.REDIS_URL) {
       errorCode: error.code,
     });
   });
-  try {
-    await redisClient.connect();
-  } catch (error) {
+  redisClient.connect().catch((error) => {
     console.error('Unable to connect to the configured rate-limit Redis store.', {
       errorType: error.name,
       errorCode: error.code,
     });
-    throw new Error('Configured rate-limit Redis store is unavailable.');
-  }
+    process.exit(1);
+  });
 } else if (env.NODE_ENV === 'production') {
   console.warn('REDIS_URL is unset; rate limits are local to this process.');
 }
